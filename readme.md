@@ -1,15 +1,109 @@
 # Clarity FM Coding Challenge
 Angelo Perera
 
-## Requirements
-> This has been tested in mac os but should run in linux with the same instructions and with windows with some varied commands. Please message angeloperera@gmail.com for help!
+## Challenge description
+---
+1.	Create a database of sample data including the following
+
+    a)	Supplier name
+
+    b)	Supplier number
+
+    c)	Services provided, eg electrical, plumbing, etc (include 10)
+  
+    d)	Work orders which incl:
+
+        i.	Date work order due
+        ii.	Date work order completed
+        iii.	Priority 1-3
+        iv.	Service report provided yes/no
+    e)	Number of sent messages
+
+    f) Number of received messages
+  
+2.	Create a separate db with a simple ui directory of suppliers that has its own db but synchronises data from the db in 1.
+
+3.	The db in 2. should have a rating system out of 10 with one decimal place that rates suppliers with a weighted average based on:
+
+    a.	Ratio of work orders completed before due date to after due date, weighted by priority where 1 (100%) is highest priority, 2 (60%) and 3 is lowest (30%)
+    
+    b.	Ratio of sent to received messages
+
+---
+
+## Methodology Design Description
+
+## GraphQL
+Schema:
+```yml
+type Supplier {
+        _id: ObjectId
+        name: String
+        number: Int
+        messages_sent: Int
+        messages_recv: Int
+    }
+    type WorkOrder {
+        _id: ObjectId
+        supplierid: ObjectId
+        description: String
+        date_due: Int
+        date_completed: Int
+        priority: Int
+        report_provided: Boolean
+    }
+```
+
+Relationships:
+```yml
+types:
+    Supplier:
+        collection: suppliers
+    WorkOrder:
+        collection: workorders
+relations:
+    -   field: workorders
+        from: Supplier
+        to: WorkOrder
+        relation_type: to_many
+        where:
+            supplierid: ${{ parent['_id'] }}
+```
+
+Queries:
+Get Suppliers
+```yml
+{
+  Suppliers(first: 1000) {
+    nodes {
+     name,
+      number,
+      messages_sent,
+      messages_recv,
+      workorders(first:100){
+        nodes{
+          description,
+          date_due,
+          date_completed,
+          priority,
+          report_provided
+        }
+    	}
+    }
+  },
+}
+```
+
+## System Requirements
+> This has been tested in Mac Os Catalina but should run fun in linux with the same instructions and with windows however with some varied commands. Please message angeloperera@gmail.com for help!
 * Docker (docker-compose)
 * NodeJS
 
 
 ## Technology Used
 * MongoDB (Containerised)
-* GraphQL (Containerised)
+* GraphQL (Containerised, MongoKe)
+* ReactJS (Apollo GraphQL)
 
 ## How to run
 Two terminals required:
