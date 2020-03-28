@@ -1,4 +1,20 @@
 schema: |
+    type Supplier {
+        _id: ObjectId
+        name: String
+        number: Int
+        messages_sent: Int
+        messages_recv: Int
+    }
+    type WorkOrder {
+        _id: ObjectId
+        supplierid: ObjectId
+        description: String
+        date_due: Int
+        date_completed: Int
+        priority: Int
+        report_provided: Boolean
+    }
     type User {
         _id: ObjectId
         username: String
@@ -12,15 +28,25 @@ schema: |
     }
 
 types:
+    Supplier:
+        collection: suppliers
+    WorkOrder:
+        collection: workorders
     User:
         collection: users
     BlogPost:
         collection: posts
 
 relations:
-    - field: posts
-      from: User
-      to: BlogPost
-      relation_type: to_many
-      where:
-          author_id: ${{ parent['_id'] }}
+    -   field: posts
+        from: User
+        to: BlogPost
+        relation_type: to_many
+        where:
+            author_id: ${{ parent['_id'] }}
+    -   field: workorders
+        from: Supplier
+        to: WorkOrder
+        relation_type: to_many
+        where:
+            supplierid: ${{ parent['_id'] }}

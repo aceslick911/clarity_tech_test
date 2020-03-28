@@ -5,53 +5,60 @@ import './App.css';
 import { useQuery } from '@apollo/react-hooks';
 import gql from "graphql-tag";
 
-const GET_POKEMON_INFO = gql`
+const GET_SUPPLIERS = gql`
 {
-  pokemons(first: 150) {
-    id
-    number
-    name,
-    image,
-    evolutions {
-      id,
-      number,
-      name,
-      image
-    }
-  }
-}`
-
-
-const GET_USER_INFO = gql`
-{
-  Users{
+  Suppliers(first: 1000) {
     nodes {
-      _id
-      username
-      email
+     name,
+      number,
+      messages_sent,
+      messages_recv,
+      workorders(first:100){
+        nodes{
+          description,
+          date_due,
+          date_completed,
+          priority,
+          report_provided
+        }
+    	}
     }
-  }
+  },
 }
 `
 
 function App() {
-  const { data, loading, error } = useQuery(GET_USER_INFO);
+  const { data, loading, error } = useQuery(GET_SUPPLIERS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
 
   return (
     <>
-      <h1>Users</h1>
+      <h1>Suppliers</h1>
 
 
       <div className="container">
         {data &&
-          data.Users &&
-          data.Users.nodes.map((user, index) => (
-            <div key={user["_id"]} className="card">
-              <div>{user.username}</div>
-              <div>{user.email}</div>
+          data.Suppliers &&
+          data.Suppliers.nodes.map((supplier, index) => (
+            <div key={supplier["_id"]} className="supplier">
+              <div>{supplier.name}</div>
+              <div>{supplier.number}</div>
+              <div>{supplier.messages_sent}</div>
+              <div>{supplier.messages_recv}</div>
+              <div>
+                <h2>Work orders:</h2>
+                {supplier.workorders && supplier.workorders.nodes.map((workorder) => (
+                  <div key={workorder["_id"]} className="workorders">
+                    <div>{workorder.description}</div>
+                    <div>{workorder.date_due}</div>
+                    <div>{workorder.date_completed}</div>
+                    <div>{workorder.priority}</div>
+                    <div>{workorder.report_provided}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
       </div>

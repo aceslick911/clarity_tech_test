@@ -20,6 +20,28 @@ Return first:
 Return all:
 
 {
+  Suppliers(first: 1000) {
+    nodes {
+     name,
+      number,
+      messages_sent,
+      messages_recv
+    
+    }
+  },
+  WorkOrders(first: 1000){
+    nodes{
+      description,
+      date_due,
+      date_completed,
+      priority,
+      report_provided
+    }
+  }
+}
+
+
+{
  Users(first:1000){
     nodes{
       username,
