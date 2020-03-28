@@ -28,30 +28,31 @@ const GET_SUPPLIERS = gql`
 `
 
 const workOrderView = ({ workorders }) => {
-  return (<div>
+
+  return workorders.nodes.length > 0 ? (<div>
     <h2>Work orders:</h2>
     <ul>
       {workorders && workorders.nodes.map((workorder) => (
         <li key={workorder["_id"]} className="workorders">
-          <div>{workorder.description}</div>
-          <div>{workorder.date_due}</div>
-          <div>{workorder.date_completed}</div>
-          <div>{workorder.priority}</div>
-          <div>{workorder.report_provided}</div>
+          <div><label>Desc: </label>{workorder.description}</div>
+          <div><label>date_due: </label>{workorder.date_due}</div>
+          <div><label>date_completed: </label>{workorder.date_completed}</div>
+          <div><label>priority: </label>{workorder.priority}</div>
+          <div><label>report_provided: </label>{workorder.report_provided}</div>
         </li>
       ))}
     </ul>
-  </div>)
+  </div>) : (<div>No work orders</div >)
 }
 
 
 const supplierView = ({ supplier }) => {
   return (
     <div key={supplier["_id"]} className="supplier">
-      <label>Name: </label><div>{supplier.name}</div>
-      <div>{supplier.number}</div>
-      <div>{supplier.messages_sent}</div>
-      <div>{supplier.messages_recv}</div>
+      <div><label>Name: </label>{supplier.name}</div>
+      <div><label>Number: </label>{supplier.number}</div>
+      <div><label>Msgs Sent: </label>{supplier.messages_sent}</div>
+      <div><label>Msgs Recv: </label>{supplier.messages_recv}</div>
       {workOrderView({ workorders: supplier.workorders })}
     </div>
   )

@@ -18,4 +18,12 @@ code {
   vertical-align: top;
 }
 
+.workorders div {
+  display: block;
+}
+
+.supplier div {
+  display: block;
+}
+
 .workorders {}
