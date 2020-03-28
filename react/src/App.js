@@ -27,7 +27,35 @@ const GET_SUPPLIERS = gql`
 }
 `
 
-function App() {
+const workOrderView = ({ workorders }) => {
+  return (<div>
+    <h2>Work orders:</h2>
+    {workorders && workorders.nodes.map((workorder) => (
+      <div key={workorder["_id"]} className="workorders">
+        <div>{workorder.description}</div>
+        <div>{workorder.date_due}</div>
+        <div>{workorder.date_completed}</div>
+        <div>{workorder.priority}</div>
+        <div>{workorder.report_provided}</div>
+      </div>
+    ))}
+  </div>)
+}
+
+const supplierView = ({ supplier }) => {
+
+  return (
+    <div key={supplier["_id"]} className="supplier">
+      <label>Name: </label><div>{supplier.name}</div>
+      <div>{supplier.number}</div>
+      <div>{supplier.messages_sent}</div>
+      <div>{supplier.messages_recv}</div>
+      {workOrderView({ workorders: supplier.workoders })}
+    </div>
+  )
+}
+
+const App = () => {
   const { data, loading, error } = useQuery(GET_SUPPLIERS);
 
   if (loading) return <p>Loading...</p>;
@@ -41,26 +69,9 @@ function App() {
       <div className="container">
         {data &&
           data.Suppliers &&
-          data.Suppliers.nodes.map((supplier, index) => (
-            <div key={supplier["_id"]} className="supplier">
-              <div>{supplier.name}</div>
-              <div>{supplier.number}</div>
-              <div>{supplier.messages_sent}</div>
-              <div>{supplier.messages_recv}</div>
-              <div>
-                <h2>Work orders:</h2>
-                {supplier.workorders && supplier.workorders.nodes.map((workorder) => (
-                  <div key={workorder["_id"]} className="workorders">
-                    <div>{workorder.description}</div>
-                    <div>{workorder.date_due}</div>
-                    <div>{workorder.date_completed}</div>
-                    <div>{workorder.priority}</div>
-                    <div>{workorder.report_provided}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+          data.Suppliers.nodes.map((supplier, index) => supplierView({ supplier })
+
+          )}
       </div>
     </>
   );
