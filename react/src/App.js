@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import styled from 'styled-components'
 
 import { useQuery } from '@apollo/react-hooks';
 import gql from "graphql-tag";
@@ -30,28 +31,37 @@ const GET_SUPPLIERS = gql`
 const workOrderView = ({ workorders }) => {
   return (<div>
     <h2>Work orders:</h2>
-    {workorders && workorders.nodes.map((workorder) => (
-      <div key={workorder["_id"]} className="workorders">
-        <div>{workorder.description}</div>
-        <div>{workorder.date_due}</div>
-        <div>{workorder.date_completed}</div>
-        <div>{workorder.priority}</div>
-        <div>{workorder.report_provided}</div>
-      </div>
-    ))}
+    <ul>
+      {workorders && workorders.nodes.map((workorder) => (
+        <li key={workorder["_id"]} className="workorders">
+          <div>{workorder.description}</div>
+          <div>{workorder.date_due}</div>
+          <div>{workorder.date_completed}</div>
+          <div>{workorder.priority}</div>
+          <div>{workorder.report_provided}</div>
+        </li>
+      ))}
+    </ul>
   </div>)
 }
 
-const supplierView = ({ supplier }) => {
+const styledSupplierView = styled.div`
+  display:inline-block;
+  height:200;
+  width:200;
+  border:1px solid black:
+  margin:5px;
+`
 
+const supplierView = ({ supplier }) => {
   return (
-    <div key={supplier["_id"]} className="supplier">
+    <styledSupplierView key={supplier["_id"]} className="supplier">
       <label>Name: </label><div>{supplier.name}</div>
       <div>{supplier.number}</div>
       <div>{supplier.messages_sent}</div>
       <div>{supplier.messages_recv}</div>
       {workOrderView({ workorders: supplier.workoders })}
-    </div>
+    </styledSupplierView>
   )
 }
 
