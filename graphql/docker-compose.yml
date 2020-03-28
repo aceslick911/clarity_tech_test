@@ -20,3 +20,6 @@ services:
             - ./mongoke.yml/:/conf.yml
         environment:
             - DB_URL=mongodb://mongo/db
+            - DOCUMENTS_PER_COLLECTION=100
+        depends_on: 
+            - mongo

@@ -18,6 +18,29 @@ Return first:
 }
 
 Return all:
+
+{
+ Users(first:1000){
+    nodes{
+      username,
+      email,
+      posts(first:10) {
+         nodes{
+          title
+        }
+      }
+    }
+  }
+}
+
+{
+ Users(first:1000){
+  nodes{
+    username
+  }
+}
+}
+
 {
   Users{
     nodes {
