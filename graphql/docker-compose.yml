@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+    mongoke:
+        ports:
+            - 4000:80
+        image: mongoke/mongoke
+        environment:
+            DB_URL: mongodb://mongo/db
+            PORT: '80'
+        volumes:
+            - ./mongoke.yml:/conf.yml
+    mongo:
+        image: mongo
+        logging:
+            driver: none
+    populate-db:
+        image: mongoke/populate-mongo
+        volumes:
+            - ./mongoke.yml/:/conf.yml
+        environment:
+            - DB_URL=mongodb://mongo/db
