@@ -1,0 +1,36 @@
+Arguments: 
+  /Users/angelo/.nvm/versions/node/v13.0.1/bin/node /usr/local/Cellar/yarn/1.21.1/libexec/bin/yarn.js init
+
+PATH: 
+  /opt/apache-maven-3.6.3/bin:/Users/angelo/.nvm/versions/node/v13.0.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/opt/apache-maven-3.6.3/bin:/Users/angelo/.nvm/versions/node/v13.0.1/bin:/Users/angelo/.fzf/bin
+
+Yarn version: 
+  1.21.1
+
+Node version: 
+  13.0.1
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (/usr/local/Cellar/yarn/1.21.1/libexec/lib/cli.js:136925:13)
+      at Interface.emit (events.js:210:5)
+      at Interface._ttyWrite (readline.js:887:16)
+      at ReadStream.onkeypress (readline.js:191:10)
+      at ReadStream.emit (events.js:210:5)
+      at emitKeys (internal/readline/utils.js:433:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1153:36)
+      at ReadStream.emit (events.js:210:5)
+      at addChunk (_stream_readable.js:325:12)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

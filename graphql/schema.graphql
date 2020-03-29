@@ -2,6 +2,7 @@
     _id: ObjectId
     name: String
     number: Int
+    Telephone: String
     messages_sent: Int
     messages_recv: Int
     service_ids: [ObjectId]
@@ -17,8 +18,8 @@ type WorkOrder {
     _id: ObjectId
     supplierid: ObjectId
     description: String
-    date_due: Int
-    date_completed: Int
+    date_due: Date
+    date_completed: Date
     priority: Int
     report_provided: Boolean
 }

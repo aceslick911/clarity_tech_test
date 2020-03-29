@@ -1,0 +1,10 @@
+{
+  "name": "populator",
+  "version": "1.0.0",
+  "main": "populate.js",
+  "license": "MIT",
+  "dependencies": {
+    "faker": "^4.1.0",
+    "mongodb": "^3.5.5"
+  }
+}

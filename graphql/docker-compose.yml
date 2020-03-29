@@ -11,16 +11,18 @@ services:
             - ./mongoke.yml:/conf.yml
             - ./schema.graphql:/schema.graphql
     mongo:
+        ports:
+            - 27017:27017
         image: mongo
         logging:
             driver: none
-    populate-db:
-        image: mongoke/populate-mongo
-        volumes:
-            - ./mongoke.yml/:/conf.yml
-            - ./schema.graphql:/schema.graphql
-        environment:
-            - DB_URL=mongodb://mongo/db
-            - DOCUMENTS_PER_COLLECTION=100
-        depends_on: 
-            - mongo
+    # populate-db:
+    #     image: mongoke/populate-mongo
+    #     volumes:
+    #         - ./mongoke.yml/:/conf.yml
+    #         - ./schema.graphql:/schema.graphql
+    #     environment:
+    #         - DB_URL=mongodb://mongo/db
+    #         - DOCUMENTS_PER_COLLECTION=100
+    #     depends_on: 
+    #         - mongo

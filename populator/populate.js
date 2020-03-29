@@ -1,0 +1,161 @@
+const MongoClient = require('mongodb').MongoClient;
+
+const faker = require('faker');
+
+const assert = require('assert');
+
+// Connection URL
+const url = 'mongodb://localhost/db';
+
+// Database Name
+const dbName = 'db';
+
+// Create a new MongoClient
+const client = new MongoClient(url, { useUnifiedTopology: true });
+
+// Use connect method to connect to the Server
+console.log("connecting...")
+client.connect(function (err) {
+    assert.equal(null, err);
+    console.log("Connected successfully to server");
+
+    const db = client.db(dbName);
+    insertDocuments(db, (err, result) => {
+        console.log(err, result);
+
+        client.close();
+    })
+
+});
+
+const insertServices = (db, count) => {
+    return new Promise((resolve, reject) => {
+        const collection = db.collection('services');
+
+        const services = []
+        for (var i = 0; i < count; i++) {
+            services.push({
+                "description": faker.commerce.productMaterial(),
+                "name": faker.commerce.product()
+            })
+        }
+
+        collection.insertMany(services, (err, result) => {
+            if (err != null) {
+                console.log("ERROR", err);
+                reject(err);
+            }
+            console.log("Added services");
+            resolve({
+                services,
+                result
+            });
+        });
+
+
+    })
+}
+
+const insertSuppliers = (db, count, services, serviceResults) => {
+
+    return new Promise((resolve, reject) => {
+        const collection = db.collection('suppliers');
+        const map = serviceResults.insertedIds;
+
+        const serviceList = [];
+        for (var key in map) {
+            serviceList.push(map[key]);
+        }
+        console.log(serviceList);
+        const removeCount = serviceList.length - 5;
+        for (var i = 0; i < removeCount; i++) {
+            serviceList.splice(Math.round(Math.random() * serviceList.length - 1), 1);
+        }
+
+        const suppliers = [];
+        for (var i = 0; i <= count; i++) {
+            suppliers.push(
+                {
+                    "name": faker.company.companyName(),
+                    "Telephone": "0419996925",
+                    "messages_recv": 20,
+                    "messages_sent": 8,
+                    "number": 3,
+                    "service_ids": serviceList
+                }
+            )
+        }
+
+
+        collection.insertMany(suppliers, (err, result) => {
+            if (err != null) {
+                console.log("ERROR", err);
+                reject(err);
+            }
+            console.log("Added suppliers", result);
+            resolve({
+                suppliers,
+                result
+            });
+        });
+
+    })
+}
+
+
+const insertWorkOrders = (db, count, suppliers, supplierResults) => {
+    console.log("SUPPS!!", supplierResults)
+    return new Promise((resolve, reject) => {
+        const collection = db.collection('workorders');
+        const map = supplierResults.insertedIds;
+
+        const supplierList = [];
+        for (var key in map) {
+            supplierList.push(map[key]);
+        }
+
+
+        console.log(supplierList);
+
+        const workOrders = [];
+        for (var supplier of supplierList) {
+            for (var i = 0; i <= count; i++) {
+                workOrders.push(
+                    {
+                        "date_completed": faker.date.future(),
+                        "date_due": faker.date.past(),
+                        "description": faker.name.jobDescriptor(),
+                        "priority": faker.random.number(3),
+                        "report_provided": faker.random.boolean(),
+                        "supplierid": supplier
+                    }
+                )
+            }
+        }
+
+
+        collection.insertMany(workOrders, (err, result) => {
+            if (err != null) {
+                console.log("ERROR", err);
+                reject(err);
+            }
+            console.log("Added suppliers");
+            resolve({
+                workOrders,
+                result
+            });
+        });
+
+    })
+}
+
+const insertDocuments = function (db, callback) {
+    insertServices(db, 20)
+        .then(({ services, result }) => insertSuppliers(db, 20, services, result))
+        .then(({ suppliers, result }) => insertWorkOrders(db, 3, suppliers, result))
+        .then(() => {
+            console.log("DONE!")
+            callback();
+        })
+
+}
