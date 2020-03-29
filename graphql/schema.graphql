@@ -4,14 +4,14 @@
     number: Int
     messages_sent: Int
     messages_recv: Int
-    service_ids: [ObjectId]
+    # service_ids: [ObjectId]
 }
 
-type Service {
-    _id: ObjectId
-    name: String
-    description: String
-}
+# type Service {
+#     _id: ObjectId
+#     name: String
+#     description: String
+# }
 
 type WorkOrder {
     _id: ObjectId

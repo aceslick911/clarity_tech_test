@@ -1,12 +1,11 @@
 schema_path: ./schema.graphql
-
 types:
     Supplier:
         collection: suppliers
     WorkOrder:
         collection: workorders
-    Services:
-        collection: services        
+    # Services:
+    #     collection: services        
 
 relations:
     -   field: workorders
@@ -15,10 +14,10 @@ relations:
         relation_type: to_many
         where:
             supplierid: ${{ parent['_id'] }}
-    -   field: services
-        from: Supplier
-        to: Service
-        relation_type: to_many
-        where:
-            _id: 
-                $in: ${{ parent['service_ids'] }}            
+    # -   field: services
+    #     from: Supplier
+    #     to: Service
+    #     relation_type: to_many
+    #     where:
+    #         _id: 
+    #             $in: ${{ parent['service_ids'] }}            

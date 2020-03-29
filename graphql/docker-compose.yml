@@ -7,7 +7,6 @@ services:
         image: mongoke/mongoke
         environment:
             - DB_URL=mongodb://mongo/db
-            - GRAPHIQL_DEFAULT_QUERY_FILE_PATH=/queries.graphql
         volumes:
             - ./mongoke.yml:/conf.yml
             - ./schema.graphql:/schema.graphql
