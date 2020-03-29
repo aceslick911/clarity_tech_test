@@ -36,31 +36,18 @@ Angelo Perera
 ## GraphQL
 Schema:
 ```yml
-type Supplier {
-        _id: ObjectId
-        name: String
-        number: Int
-        messages_sent: Int
-        messages_recv: Int
-    }
-    type WorkOrder {
-        _id: ObjectId
-        supplierid: ObjectId
-        description: String
-        date_due: Int
-        date_completed: Int
-        priority: Int
-        report_provided: Boolean
-    }
-```
-
-Relationships:
-```yml
 types:
     Supplier:
         collection: suppliers
     WorkOrder:
         collection: workorders
+    Service:
+        collection: services        
+        exposed: false
+```
+
+Relationships:
+```yml
 relations:
     -   field: workorders
         from: Supplier
@@ -68,6 +55,13 @@ relations:
         relation_type: to_many
         where:
             supplierid: ${{ parent['_id'] }}
+    -   field: services
+        from: Supplier
+        to: Service
+        relation_type: to_many
+        where:
+            _id: 
+                $in: ${{ parent['service_ids'] }}            
 ```
 
 Queries:
@@ -88,7 +82,13 @@ Get Suppliers
           priority,
           report_provided
         }
-    	}
+      },
+      services(first:100){
+        nodes{
+          name,
+          description
+        }
+      }
     }
   },
 }
