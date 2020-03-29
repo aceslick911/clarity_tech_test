@@ -6,10 +6,11 @@ services:
             - 4000:80
         image: mongoke/mongoke
         environment:
-            DB_URL: mongodb://mongo/db
-            PORT: '80'
+            - DB_URL=mongodb://mongo/db
+            - GRAPHIQL_DEFAULT_QUERY_FILE_PATH=/queries.graphql
         volumes:
             - ./mongoke.yml:/conf.yml
+            - ./schema.graphql:/schema.graphql
     mongo:
         image: mongo
         logging:
@@ -18,6 +19,7 @@ services:
         image: mongoke/populate-mongo
         volumes:
             - ./mongoke.yml/:/conf.yml
+            - ./schema.graphql:/schema.graphql
         environment:
             - DB_URL=mongodb://mongo/db
             - DOCUMENTS_PER_COLLECTION=100

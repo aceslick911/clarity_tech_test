@@ -1,0 +1,24 @@
+ type Supplier {
+    _id: ObjectId
+    name: String
+    number: Int
+    messages_sent: Int
+    messages_recv: Int
+    service_ids: [ObjectId]
+}
+
+type Service {
+    _id: ObjectId
+    name: String
+    description: String
+}
+
+type WorkOrder {
+    _id: ObjectId
+    supplierid: ObjectId
+    description: String
+    date_due: Int
+    date_completed: Int
+    priority: Int
+    report_provided: Boolean
+}
