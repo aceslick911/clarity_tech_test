@@ -25,6 +25,56 @@ Return all:
      name,
       number,
       messages_sent,
+      messages_recv,
+      workorders(first:100){
+        nodes{
+          description,
+          date_due,
+          date_completed,
+          priority,
+          report_provided
+        }
+      },
+      services(first:100){
+        nodes{
+          name,
+          description
+        }
+      }
+    }
+  },
+}
+
+
+{
+  Suppliers(first: 1000) {
+    nodes {
+     name,
+      number,
+      messages_sent,
+      messages_recv,
+      workorders(first:100){
+        nodes{
+          description,
+          date_due,
+          date_completed,
+          priority,
+          report_provided
+        }
+    	}
+    }
+  },
+}
+
+
+
+
+{
+  Suppliers(first: 1000) {
+    nodes {
+     name,
+      number,
+      messages_sent,
       messages_recv
     
     }

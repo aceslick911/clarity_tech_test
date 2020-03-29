@@ -21,11 +21,34 @@ const GET_SUPPLIERS = gql`
           priority,
           report_provided
         }
-    	}
+      },
+      services(first:100){
+        nodes{
+          name,
+          description
+        }
+      }
     }
   },
 }
 `
+
+const servicesView = ({ services }) => {
+
+  return services.nodes.length > 0 ? (<div>
+    <h2>Services:</h2>
+    <ul>
+      {services && services.nodes.map((service) => (
+        <li key={service["_id"]} className="services">
+          <div><label>Name: </label>{service.name}</div>
+          <div><label>Desc: </label>{service.description}</div>
+
+        </li>
+      ))}
+    </ul>
+  </div>) : (<div>No services</div >)
+}
+
 
 const workOrderView = ({ workorders }) => {
 
@@ -53,6 +76,7 @@ const supplierView = ({ supplier }) => {
       <div><label>Number: </label>{supplier.number}</div>
       <div><label>Msgs Sent: </label>{supplier.messages_sent}</div>
       <div><label>Msgs Recv: </label>{supplier.messages_recv}</div>
+      {servicesView({ services: supplier.services })}
       {workOrderView({ workorders: supplier.workorders })}
     </div>
   )

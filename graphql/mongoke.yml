@@ -5,7 +5,7 @@ types:
     WorkOrder:
         collection: workorders
     Service:
-        collection: svcs        
+        collection: services        
         exposed: false
 
 relations:
@@ -15,10 +15,10 @@ relations:
         relation_type: to_many
         where:
             supplierid: ${{ parent['_id'] }}
-    -   field: svcs
+    -   field: services
         from: Supplier
         to: Service
         relation_type: to_many
         where:
             _id: 
-                $in: ${{ parent['svc_ids'] }}            
+                $in: ${{ parent['service_ids'] }}            
