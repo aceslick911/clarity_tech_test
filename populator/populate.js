@@ -20,9 +20,7 @@ client.connect(function (err) {
     console.log("Connected successfully to server");
 
     const db = client.db(dbName);
-    insertDocuments(db, (err, result) => {
-        console.log(err, result);
-
+    insertDocuments(db, () => {
         client.close();
     })
 
@@ -66,22 +64,26 @@ const insertSuppliers = (db, count, services, serviceResults) => {
         for (var key in map) {
             serviceList.push(map[key]);
         }
-        console.log(serviceList);
-        const removeCount = serviceList.length - 5;
-        for (var i = 0; i < removeCount; i++) {
-            serviceList.splice(Math.round(Math.random() * serviceList.length - 1), 1);
-        }
+
 
         const suppliers = [];
         for (var i = 0; i <= count; i++) {
+
+            const tempServiceList = [...serviceList]
+            const removeCount = serviceList.length - 5;
+            for (var ii = 0; ii < removeCount; ii++) {
+                tempServiceList.splice(Math.round(Math.random() * tempServiceList.length - 1), 1);
+            }
+            console.log(serviceList);
+
             suppliers.push(
                 {
                     "name": faker.company.companyName(),
                     "Telephone": "0419996925",
-                    "messages_recv": 20,
-                    "messages_sent": 8,
-                    "number": 3,
-                    "service_ids": serviceList
+                    "messages_recv": faker.random.number(100),
+                    "messages_sent": faker.random.number(100),
+                    "number": faker.random.number(3),
+                    "service_ids": tempServiceList
                 }
             )
         }
@@ -92,7 +94,7 @@ const insertSuppliers = (db, count, services, serviceResults) => {
                 console.log("ERROR", err);
                 reject(err);
             }
-            console.log("Added suppliers", result);
+            console.log("Added suppliers");
             resolve({
                 suppliers,
                 result
@@ -104,7 +106,6 @@ const insertSuppliers = (db, count, services, serviceResults) => {
 
 
 const insertWorkOrders = (db, count, suppliers, supplierResults) => {
-    console.log("SUPPS!!", supplierResults)
     return new Promise((resolve, reject) => {
         const collection = db.collection('workorders');
         const map = supplierResults.insertedIds;
@@ -115,7 +116,6 @@ const insertWorkOrders = (db, count, suppliers, supplierResults) => {
         }
 
 
-        console.log(supplierList);
 
         const workOrders = [];
         for (var supplier of supplierList) {
@@ -139,7 +139,7 @@ const insertWorkOrders = (db, count, suppliers, supplierResults) => {
                 console.log("ERROR", err);
                 reject(err);
             }
-            console.log("Added suppliers");
+            console.log("Added Work orders");
             resolve({
                 workOrders,
                 result
