@@ -5,7 +5,7 @@ const faker = require('faker');
 const assert = require('assert');
 
 // Connection URL
-const url = 'mongodb://localhost/db';
+const url = 'mongodb://mongo/db';
 
 // Database Name
 const dbName = 'db';

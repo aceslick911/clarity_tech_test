@@ -8,14 +8,39 @@ services:
         environment:
             - DB_URL=mongodb://mongo/db
         volumes:
-            - ./mongoke.yml:/conf.yml
-            - ./schema.graphql:/schema.graphql
+            - ./graphql/mongoke.yml:/conf.yml
+            - ./graphql/schema.graphql:/schema.graphql
     mongo:
         ports:
             - 27017:27017
         image: mongo
         logging:
             driver: none
+
+    mongo2:
+        ports:
+            - 27018:27017
+        image: mongo
+        logging:
+            driver: none     
+
+    react:
+        build: ./react/
+        ports:
+            - 3000:3000
+        logging:
+            driver: none 
+        volumes:
+            - ./react:/app
+    populator:
+        build: ./populator/
+        volumes:
+            - ./populator:/app          
+        depends_on: 
+            - mongo        
+        links:
+            - "mongo:mongo"    
+
     # populate-db:
     #     image: mongoke/populate-mongo
     #     volumes:

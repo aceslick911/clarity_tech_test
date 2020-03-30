@@ -106,14 +106,7 @@ Get Suppliers
 * ReactJS (Apollo GraphQL)
 
 ## How to run
-Two terminals required:
+Run in terminal:
 ```bash
-cd graphql
-docker-compose up
-```
-
-```bash
-cd react
-yarn install
-yarn start
+docker-compose up --build --remove-orphans
 ```
