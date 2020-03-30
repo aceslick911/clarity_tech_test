@@ -7,6 +7,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-hooks';
 
+// Query DB
+
 const GET_SUPPLIERS = gql`
 {
   Suppliers(first: 1000) {

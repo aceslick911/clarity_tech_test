@@ -119,13 +119,14 @@ const insertWorkOrders = (db, count, suppliers, supplierResults) => {
 
         const workOrders = [];
         for (var supplier of supplierList) {
+            const successRatio = 10 / faker.random.number(10);
             for (var i = 0; i <= count; i++) {
                 workOrders.push(
                     {
-                        "date_completed": faker.date.future(),
+                        "date_completed": Math.random(10) < (successRatio * 10) ? faker.date.past() : faker.date.future(),
                         "date_due": faker.date.past(),
                         "description": faker.name.jobDescriptor(),
-                        "priority": faker.random.number(3),
+                        "priority": faker.random.number(2),
                         "report_provided": faker.random.boolean(),
                         "supplierid": supplier
                     }
@@ -152,7 +153,7 @@ const insertWorkOrders = (db, count, suppliers, supplierResults) => {
 const insertDocuments = function (db, callback) {
     insertServices(db, 20)
         .then(({ services, result }) => insertSuppliers(db, 20, services, result))
-        .then(({ suppliers, result }) => insertWorkOrders(db, 3, suppliers, result))
+        .then(({ suppliers, result }) => insertWorkOrders(db, 20, suppliers, result))
         .then(() => {
             console.log("DONE!")
             callback();
