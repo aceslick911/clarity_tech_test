@@ -10,6 +10,8 @@ services:
         volumes:
             - ./graphql/mongoke.yml:/conf.yml
             - ./graphql/schema.graphql:/schema.graphql
+        links:
+            - "mongo:mongo"    
     mongo:
         ports:
             - 27017:27017
@@ -17,6 +19,17 @@ services:
         logging:
             driver: none
 
+    mongoke2:
+        ports:
+            - 4001:80
+        image: mongoke/mongoke
+        environment:
+            - DB_URL=mongodb://mongo2:27017/db
+        volumes:
+            - ./graphql/mongoke.yml:/conf.yml
+            - ./graphql/schema.graphql:/schema.graphql
+        links:
+            - "mongo2:mongo2"    
     mongo2:
         ports:
             - 27018:27017

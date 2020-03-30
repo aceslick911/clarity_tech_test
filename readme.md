@@ -110,3 +110,9 @@ Run in terminal:
 ```bash
 docker-compose up --build --remove-orphans
 ```
+
+* Visit: http://localhost:4000 for GraphQL Webserver for MongoDB1
+* Visit: http://localhost:4001 for GraphQL Webserver for MongoDB2
+
+* Visit: http://localhost:3000 for React App (Database1)
+* Visit: http://localhost:3001 for React App (Database2)
