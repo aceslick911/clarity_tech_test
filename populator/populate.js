@@ -26,6 +26,17 @@ client.connect(function (err) {
 
 });
 
+const insertDocuments = (db, callback) => {
+    insertServices(db, 20)
+        .then(({ services, result }) => insertSuppliers(db, 20, services, result))
+        .then(({ suppliers, result }) => insertWorkOrders(db, 20, suppliers, result))
+        .then(() => {
+            console.log("DONE!")
+            callback();
+        })
+
+}
+
 const insertServices = (db, count) => {
     return new Promise((resolve, reject) => {
         const collection = db.collection('services');
@@ -148,15 +159,4 @@ const insertWorkOrders = (db, count, suppliers, supplierResults) => {
         });
 
     })
-}
-
-const insertDocuments = function (db, callback) {
-    insertServices(db, 20)
-        .then(({ services, result }) => insertSuppliers(db, 20, services, result))
-        .then(({ suppliers, result }) => insertWorkOrders(db, 20, suppliers, result))
-        .then(() => {
-            console.log("DONE!")
-            callback();
-        })
-
 }
