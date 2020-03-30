@@ -97,13 +97,13 @@ Get Suppliers
 ## System Requirements
 > This has been tested in Mac Os Catalina but should run fun in linux with the same instructions and with windows however with some varied commands. Please message angeloperera@gmail.com for help!
 * Docker (docker-compose)
-* NodeJS
+* NodeJS (Optional - For debugging, otherwise can run fine in docker-compose)
 
 
 ## Technology Used
 * MongoDB (Containerised)
 * GraphQL (Containerised, MongoKe)
-* ReactJS (Apollo GraphQL)
+* ReactJS (Containerised, Apollo, GraphQL)
 
 ## How to run
 Run in terminal:
@@ -111,8 +111,7 @@ Run in terminal:
 docker-compose up --build --remove-orphans
 ```
 
-* Visit: http://localhost:4000 for GraphQL Webserver for MongoDB1
-* Visit: http://localhost:4001 for GraphQL Webserver for MongoDB2
+* Visit: http://localhost:4000 for GraphQL UI for MongoDB1
+* Visit: http://localhost:4001 for GraphQL UI for MongoDB2
 
-* Visit: http://localhost:3000 for React App (Database1)
-* Visit: http://localhost:3001 for React App (Database2)
+* Visit: http://localhost:3000 for React App (Database 1 and 2)
