@@ -45,7 +45,10 @@ const calculateCompletionRatios = async (suppliers) => {
         const p2Jobs = supplier.workorders.nodes.filter(workOrder => workOrder.priority == 1);
         const p3Jobs = supplier.workorders.nodes.filter(workOrder => workOrder.priority > 1);
 
-        const calcCompleted = (jobs) => jobs.length == 0 ? 0 : jobs.map(current => (Number(new Date(current.date_due)) > Number(new Date(current.date_completed)) ? 1 : 0)).reduce((total, active) => total + active);
+        const calcCompleted = (jobs) => jobs.length == 0 ? 0 : (
+            jobs.map(current => (Number(new Date(current.date_due)) > Number(new Date(current.date_completed)) ? 1 : 0))
+                .reduce((total, active) => total + active)
+        );
 
         const p1JobsCompleted = calcCompleted(p1Jobs);
         const p2JobsCompleted = calcCompleted(p2Jobs);
@@ -64,11 +67,29 @@ const calculateCompletionRatios = async (suppliers) => {
 }
 
 const calculateFinalRating = async (suppliers) => {
-    return suppliers
+    return suppliers.map(supplier => {
+        const rating = 10 * (
+            (Math.min(1, supplier.messageRatio)
+                + supplier.p1CompletionRatio
+                + (supplier.p2CompletionRatio * 0.6)
+                + (supplier.p3CompletionRatio * 0.3)
+            ) / (1 + 1 + 0.6 + 0.3)
+        );
+        return {
+            ...supplier,
+            rating: Math.round(rating * 10) / 10
+        }
+    })
+
 }
 
 const filterToWebRequest = async (suppliers) => {
-    return suppliers
+    return suppliers.map(supplier => {
+        return {
+            name: supplier.name,
+            rating: supplier.rating
+        }
+    });
 }
 
 fetchDB1Data().catch(error => console.error(error))
