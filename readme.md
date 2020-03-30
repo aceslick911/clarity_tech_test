@@ -52,20 +52,38 @@ docker-compose up --build --remove-orphans
 * Visit: http://localhost:4001 for GraphQL UI for MongoDB2
 
 * Visit: http://localhost:3000 for React App (Database 1 and 2)
+* Visit: http://localhost:3001 for DB Sync Back-End(NodeJS)
 
 ## Methodology Design Description
 
 ## GraphQL
 Schema:
 ```yml
-types:
-    Supplier:
-        collection: suppliers
-    WorkOrder:
-        collection: workorders
-    Service:
-        collection: services        
-        exposed: false
+ type Supplier {
+    _id: ObjectId
+    name: String
+    number: Int
+    Telephone: String
+    messages_sent: Int
+    messages_recv: Int
+    service_ids: [ObjectId]
+}
+
+type Service {
+    _id: ObjectId
+    name: String
+    description: String
+}
+
+type WorkOrder {
+    _id: ObjectId
+    supplierid: ObjectId
+    description: String
+    date_due: Date
+    date_completed: Date
+    priority: Int
+    report_provided: Boolean
+}
 ```
 
 Relationships:

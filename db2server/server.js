@@ -1,6 +1,30 @@
 // Purpose: Run GraphQL request from DB1 then save into DB2. Cache for 2 minutes in DB2
 const { request } = require('graphql-request')
 
+var express = require('express');
+var cors = require('cors');
+var app = express();
+app.use(cors());
+
+app.get('/', (req, res, next) => {
+
+    fetchDB1Data().catch(error => console.error(error))
+        .then(calculateMessageRatios)
+        .then(calculateCompletionRatios)
+        .then(calculateFinalRating)
+        .then(filterToWebRequest)
+        .then(outputData => {
+            console.log(JSON.stringify(outputData, null, 4));
+            res.json(outputData)
+        })
+
+
+})
+
+const server = app.listen(3001, () => {
+    console.log('Listening on port %s', server.address().port)
+})
+
 const fetchDB1Data = async () => {
     const endpoint = 'http://localhost:4000/'
 
@@ -91,10 +115,3 @@ const filterToWebRequest = async (suppliers) => {
         }
     });
 }
-
-fetchDB1Data().catch(error => console.error(error))
-    .then(calculateMessageRatios)
-    .then(calculateCompletionRatios)
-    .then(calculateFinalRating)
-    .then(filterToWebRequest)
-    .then(outputData => console.log(JSON.stringify(outputData, null, 4)))
