@@ -100,10 +100,9 @@ const insertSuppliers = (db, count, services, serviceResults) => {
             suppliers.push(
                 {
                     "name": faker.company.companyName(),
-                    "Telephone": "0419996925",
                     "messages_recv": faker.random.number(100),
                     "messages_sent": faker.random.number(100),
-                    "number": faker.random.number(3),
+                    "number": faker.phone.phoneNumber(),
                     "service_ids": tempServiceList
                 }
             )

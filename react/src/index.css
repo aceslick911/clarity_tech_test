@@ -26,7 +26,28 @@ code {
   display: block;
 }
 
-.workorders {}
+.supplier2 {
+  display: inline-block;
+  width: 217px;
+  border: 1px solid #bbad00;
+  margin: 5px;
+  vertical-align: top;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #ffff8c;
+  height: 42px;
+  overflow: hidden;
+  font-family: "helvetica";
+  box-shadow: 2px 2px 5px #0000008c;
+}
+
+.supplier2 div {
+  display: block;
+  height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .ratings-gauge {
   background-color: red;

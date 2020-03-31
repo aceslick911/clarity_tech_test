@@ -86,8 +86,7 @@ DB1 -  (DB1 - http://localhost:4000)
  type Supplier {
     _id: ObjectId
     name: String
-    number: Int
-    Telephone: String
+    number: String
     messages_sent: Int
     messages_recv: Int
     service_ids: [ObjectId]

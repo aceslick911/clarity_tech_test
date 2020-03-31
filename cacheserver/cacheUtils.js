@@ -17,7 +17,8 @@ const getCachedSupplierData = (db) => new Promise((resolve, err) => {
             result = result.map(supplier => (
                 {
                     name: supplier.name,
-                    rating: supplier.rating
+                    rating: supplier.rating,
+                    _id: supplier._id
                 })
             );
             resolve(result)

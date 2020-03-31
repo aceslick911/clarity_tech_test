@@ -10,6 +10,7 @@ const fetchDB1Data = async () => {
             name,
             messages_sent,
             messages_recv,
+            number,
             workorders(first:100){
                 nodes{
                     date_due,

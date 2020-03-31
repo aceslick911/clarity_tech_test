@@ -10,7 +10,7 @@ const RatingsGuage = ({ rating }) => {
 
 const supplierView = ({ supplier }) => {
     return (
-        <div key={supplier["_id"]} className="supplier">
+        <div key={supplier["_id"]} className="supplier2">
             <div><label>Name: </label>{supplier.name}</div>
             <div><label>Rating: </label>{supplier.rating} / 10</div>
             <RatingsGuage rating={supplier.rating}></RatingsGuage>
