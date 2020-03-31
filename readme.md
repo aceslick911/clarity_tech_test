@@ -62,6 +62,26 @@ Debugging URLS:
 * Visit: http://localhost:4001 for GraphQL UI for MongoDB2 - Synced DB with ratings
 * Visit: http://localhost:3002 for DB Sync Back-End(NodeJS)
 
+## Ratings Calculation Algorithm
+See file for full algorithm: 
+[cacheserver/calcEngine.js](https://github.com/aceslick911/clarity_tech_test/blob/master/cacheserver/calcEngine.js)
+
+```javascript
+suppliers.map(supplier => {
+        const rating = 10 * (
+            (Math.min(1, supplier.messageRatio)
+                + supplier.p1CompletionRatio
+                + (supplier.p2CompletionRatio * 0.6)
+                + (supplier.p3CompletionRatio * 0.3)
+            ) / (1 + 1 + 0.6 + 0.3)
+        );
+        return {
+            ...supplier,
+            rating: Math.round(rating * 10) / 10
+        }
+    })
+```
+
 Troubleshooting:
 Try running this if mongo fails to run:
 `docker volume prune`
