@@ -46,7 +46,7 @@ Angelo Perera
 ## Methodology Design Description
 I have chosen to use docker to host this application as it allows me to use MongoDB, GraphQL, NodeJS and ReactJS in a consistent and predictable manner
 
-[design](./ClarityDesign.png "Architectural Design")
+[design](ClarityDesign.png "Architectural Design")
 
 ## How to run
 Run in terminal:
