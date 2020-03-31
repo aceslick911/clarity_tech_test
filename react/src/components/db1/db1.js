@@ -87,7 +87,6 @@ const supplierView = ({ supplier }) => {
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
-    //uri: 'http://mongoke:4000/'
     uri: 'http://localhost:4000/'
 })
 
@@ -103,15 +102,20 @@ export const DB1App = () => {
 }
 
 export const DB1 = () => {
-    const { data, loading, error } = useQuery(GET_SUPPLIERS);
+    const { data, loading, error, refetch } = useQuery(GET_SUPPLIERS);
 
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error</p>;
 
+    const refreshData = () => {
+        refetch();
+    }
+
     return (
         <>
             <h1>Database 1 - Suppliers</h1>
+            <button onClick={refreshData}>Refresh Data</button>
             <div className="container">
                 {data &&
                     data.Suppliers &&

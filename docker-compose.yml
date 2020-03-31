@@ -63,14 +63,3 @@ services:
         links:
             - "mongo2:mongo2"
             - "mongoke:mongoke"                  
-
-    # populate-db:
-    #     image: mongoke/populate-mongo
-    #     volumes:
-    #         - ./mongoke.yml/:/conf.yml
-    #         - ./schema.graphql:/schema.graphql
-    #     environment:
-    #         - DB_URL=mongodb://mongo/db
-    #         - DOCUMENTS_PER_COLLECTION=100
-    #     depends_on: 
-    #         - mongo

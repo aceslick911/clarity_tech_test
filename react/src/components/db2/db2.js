@@ -1,24 +1,6 @@
-import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import React, { useState, useEffect } from 'react';
+
 import gql from "graphql-tag";
-
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
-import { ApolloProvider } from '@apollo/react-hooks';
-
-// Query DB
-
-const GET_SUPPLIERS = gql`
-{
-  Suppliers(first: 1000) {
-    nodes {
-     name,
-     rating
-    }
-  },
-}
-`
 
 const RatingsGuage = ({ rating }) => {
     return (
@@ -38,37 +20,57 @@ const supplierView = ({ supplier }) => {
     )
 }
 
-
-const cache = new InMemoryCache();
-const link = new HttpLink({
-    //uri: 'http://mongoke2:4001/'
-    uri: 'http://localhost:4001/'
-})
-
-const client = new ApolloClient({
-    cache,
-    link
-})
-
 export const DB2App = () => {
-    return (<ApolloProvider client={client}>
+    return (
         <DB2 />
-    </ApolloProvider>)
+    )
 }
+const URL = 'http://localhost:3002/'
 
 export const DB2 = () => {
-    const { data, loading, error } = useQuery(GET_SUPPLIERS);
+    const [state, setState] = useState({
+        data: [],
+        loading: true,
+        error: null
+    })
+
+    const { data, loading, error } = state;
+
+    const refetch = () => {
+
+        setState({ ...state, loading: true })
+        fetch(URL).then(async (response) => {
+            if (response.ok) {
+                let supplierData = await response.json();
+
+                console.log(supplierData);
+                setState({ ...state, data: supplierData, loading: false })
+            } else {
+                setState({ ...state, error: true })
+            }
+        })
+    }
+
+    // Do once
+    useEffect(() => {
+        refetch();
+    }, [])
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error</p>;
 
+    const refreshData = () => {
+        refetch();
+    }
+
     return (
         <>
             <h1>Database 2 - Supplier Ratings</h1>
+            <button onClick={refreshData}>Refresh Data</button>
             <div className="container">
-                {data &&
-                    data.Suppliers &&
-                    data.Suppliers.nodes.map((supplier, index) => supplierView({ supplier })
+                {
+
+                    data.map((supplier, index) => supplierView({ supplier })
 
                     )}
             </div>

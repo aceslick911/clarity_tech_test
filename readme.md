@@ -48,11 +48,12 @@ Run in terminal:
 docker-compose up --build --remove-orphans
 ```
 
-* Visit: http://localhost:4000 for GraphQL UI for MongoDB1
-* Visit: http://localhost:4001 for GraphQL UI for MongoDB2
-
 * Visit: http://localhost:3000 for React App (Database 1 and 2)
-* Visit: http://localhost:3001 for DB Sync Back-End(NodeJS)
+
+Debugging URLS:
+* Visit: http://localhost:4000 for GraphQL UI for MongoDB1 - Main DB
+* Visit: http://localhost:4001 for GraphQL UI for MongoDB2 - Synced DB with ratings
+* Visit: http://localhost:3002 for DB Sync Back-End(NodeJS)
 
 ## Methodology Design Description
 
