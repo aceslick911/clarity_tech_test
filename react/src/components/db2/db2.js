@@ -20,12 +20,20 @@ const GET_SUPPLIERS = gql`
 }
 `
 
+const RatingsGuage = ({ rating }) => {
+    return (
+        <div className="ratings-gauge">
+            <div style={{ "width": `${rating / 10 * 100}%` }}></div>
+        </div>
+    )
+}
 
 const supplierView = ({ supplier }) => {
     return (
         <div key={supplier["_id"]} className="supplier">
             <div><label>Name: </label>{supplier.name}</div>
-            <div><label>Rating: </label>{supplier.rating}</div>
+            <div><label>Rating: </label>{supplier.rating} / 10</div>
+            <RatingsGuage rating={supplier.rating}></RatingsGuage>
         </div>
     )
 }

@@ -27,3 +27,14 @@ code {
 }
 
 .workorders {}
+
+.ratings-gauge {
+  background-color: red;
+  width: 100%;
+  height: 10px;
+}
+
+.ratings-gauge div {
+  background-color: blue;
+  height: 10px;
+}
