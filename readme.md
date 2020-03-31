@@ -66,8 +66,8 @@ Troubleshooting:
 Try running this if mongo fails to run:
 `docker volume prune`
 
-![design](DB1.png "Database 1")
-![design](DB2.png "Database 2")
+![design](db1.png "Database 1")
+![design](db2.png "Database 2")
 
 Items omitted from this project:
 * Unit testing (Due to time constraints - however the application has been kept modular and is highly testable)
