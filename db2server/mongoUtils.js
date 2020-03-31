@@ -30,7 +30,10 @@ const terminateMongoConnection = (client) => {
     client.close();
 }
 
+
+
 module.exports = {
     initializeMongoConnection,
     terminateMongoConnection
 }
+
