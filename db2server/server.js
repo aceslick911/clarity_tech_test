@@ -1,6 +1,7 @@
 // Purpose: Run GraphQL request from DB1 then save into DB2. Cache for 2 minutes in DB2
 const { request } = require('graphql-request')
-const MongoClient = require('mongodb').MongoClient;
+
+const { initializeMongoConnection, terminateMongoConnection } = require('./mongoUtils')
 
 var express = require('express');
 var cors = require('cors');
@@ -8,32 +9,10 @@ var app = express();
 app.use(cors());
 
 
-
 let db_instance = null;
 let db_client = null
 let lastRequest = null;
 const cacheTimeSeconds = 2;//60 * 5;
-
-const initializeMongoConnection = () => new Promise((resolve, error) => {
-    const url = 'mongodb://localhost:27018/db';
-    const dbName = 'db';
-    const client = new MongoClient(url, { useUnifiedTopology: true });
-
-    // Use connect method to connect to the Server
-    console.log("connecting...")
-    client.connect((err) => {
-        console.log(`DB Connected successfully to ${url}`);
-
-        const db = client.db(dbName);
-
-        const collection = db.collection('suppliers');
-        collection.find()
-
-        resolve({ db, client });
-
-    })//.error(err => error(err));
-
-})
 
 
 initializeMongoConnection().then((connection) => {
@@ -70,9 +49,6 @@ app.get('/', (req, res, next) => {
 
 })
 
-const terminateMongoConnection = (client) => {
-    client.close();
-}
 
 const cacheSupplierData = (suppliers, db) => {
     const collection = db.collection('suppliers');
