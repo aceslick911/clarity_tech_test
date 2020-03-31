@@ -1,0 +1,4 @@
+schema_path: ./schema.graphql
+types:
+    Supplier:
+        collection: suppliers

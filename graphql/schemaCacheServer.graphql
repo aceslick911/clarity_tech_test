@@ -1,0 +1,5 @@
+ type Supplier {
+    _id: ObjectId
+    name: String
+    rating: Float
+}

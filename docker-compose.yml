@@ -26,8 +26,8 @@ services:
         environment:
             - DB_URL=mongodb://mongo2:27017/db
         volumes:
-            - ./graphql/mongoke.yml:/conf.yml
-            - ./graphql/schema.graphql:/schema.graphql
+            - ./graphql/mongokeCacheServer.yml:/conf.yml
+            - ./graphql/schemaCacheServer.graphql:/schema.graphql
         links:
             - "mongo2:mongo2"    
     mongo2:
