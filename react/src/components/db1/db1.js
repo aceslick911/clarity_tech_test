@@ -87,6 +87,7 @@ const supplierView = ({ supplier }) => {
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
+    //uri: 'http://mongoke:4000/'
     uri: 'http://localhost:4000/'
 })
 

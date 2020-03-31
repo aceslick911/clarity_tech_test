@@ -17,7 +17,7 @@ const App = () => {
 
       <button onClick={() => { setState({ activeApp: 1 }) }}>App 1</button><button onClick={() => { setState({ activeApp: 2 }) }}>App 2</button>
       <div className="container">
-        {state.activeApp == 1 ?
+        {state.activeApp === 1 ?
           DB1App() :
           DB2App()
         }

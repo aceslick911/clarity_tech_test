@@ -14,74 +14,18 @@ const GET_SUPPLIERS = gql`
   Suppliers(first: 1000) {
     nodes {
      name,
-      number,
-      messages_sent,
-      messages_recv,
-      workorders(first:100){
-        nodes{
-          description,
-          date_due,
-          date_completed,
-          priority,
-          report_provided
-        }
-      },
-      services(first:100){
-        nodes{
-          name,
-          description
-        }
-      }
+     rating
     }
   },
 }
 `
-
-const servicesView = ({ services }) => {
-
-    return services.nodes.length > 0 ? (<div>
-        <h2>Services:</h2>
-        <ul>
-            {services && services.nodes.map((service) => (
-                <li key={service["_id"]} className="services">
-                    <div><label>Name: </label>{service.name}</div>
-                    <div><label>Desc: </label>{service.description}</div>
-
-                </li>
-            ))}
-        </ul>
-    </div>) : (<div>No services</div >)
-}
-
-
-const workOrderView = ({ workorders }) => {
-
-    return workorders.nodes.length > 0 ? (<div>
-        <h2>Work orders:</h2>
-        <ul>
-            {workorders && workorders.nodes.map((workorder) => (
-                <li key={workorder["_id"]} className="workorders">
-                    <div><label>Desc: </label>{workorder.description}</div>
-                    <div><label>date_due: </label>{workorder.date_due}</div>
-                    <div><label>date_completed: </label>{workorder.date_completed}</div>
-                    <div><label>priority: </label>{workorder.priority}</div>
-                    <div><label>report_provided: </label>{workorder.report_provided}</div>
-                </li>
-            ))}
-        </ul>
-    </div>) : (<div>No work orders</div >)
-}
 
 
 const supplierView = ({ supplier }) => {
     return (
         <div key={supplier["_id"]} className="supplier">
             <div><label>Name: </label>{supplier.name}</div>
-            <div><label>Number: </label>{supplier.number}</div>
-            <div><label>Msgs Sent: </label>{supplier.messages_sent}</div>
-            <div><label>Msgs Recv: </label>{supplier.messages_recv}</div>
-            {servicesView({ services: supplier.services })}
-            {workOrderView({ workorders: supplier.workorders })}
+            <div><label>Rating: </label>{supplier.rating}</div>
         </div>
     )
 }
@@ -89,7 +33,8 @@ const supplierView = ({ supplier }) => {
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
-    uri: 'http://localhost:4000/'
+    //uri: 'http://mongoke2:4001/'
+    uri: 'http://localhost:4001/'
 })
 
 const client = new ApolloClient({
@@ -111,7 +56,7 @@ export const DB2 = () => {
 
     return (
         <>
-            <h1>Database 2 - Suppliers</h1>
+            <h1>Database 2 - Supplier Ratings</h1>
             <div className="container">
                 {data &&
                     data.Suppliers &&
