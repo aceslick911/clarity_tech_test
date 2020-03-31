@@ -85,7 +85,6 @@ const insertSuppliers = (db, count, services, serviceResults) => {
             for (var ii = 0; ii < removeCount; ii++) {
                 tempServiceList.splice(Math.round(Math.random() * tempServiceList.length - 1), 1);
             }
-            console.log(serviceList);
 
             suppliers.push(
                 {

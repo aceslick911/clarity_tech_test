@@ -40,9 +40,7 @@ services:
     react:
         build: ./react/
         ports:
-            - 3000:3000
-        logging:
-            driver: none 
+            - 3000:80
         volumes:
             - ./react:/app
     populator:
