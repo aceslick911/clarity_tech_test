@@ -42,6 +42,12 @@ Angelo Perera
 * GraphQL (Containerised, MongoKe)
 * ReactJS (Containerised, Apollo, GraphQL)
 
+
+## Methodology Design Description
+I have chosen to use docker to host this application as it allows me to use MongoDB, GraphQL, NodeJS and ReactJS in a consistent and predictable manner
+
+[design](./ClarityDesign.png "Architectural Design")
+
 ## How to run
 Run in terminal:
 ```bash
@@ -55,7 +61,6 @@ Debugging URLS:
 * Visit: http://localhost:4001 for GraphQL UI for MongoDB2 - Synced DB with ratings
 * Visit: http://localhost:3002 for DB Sync Back-End(NodeJS)
 
-## Methodology Design Description
 
 ## GraphQL
 Schema:

@@ -1,6 +1,14 @@
 version: '3'
 
 services:
+    # MongoDB for DB1
+    mongo:
+        ports:
+            - 27017:27017
+        image: mongo
+        logging:
+            driver: none
+    # GraphQL API for DB1
     mongoke:
         ports:
             - 4000:80
@@ -12,13 +20,15 @@ services:
             - ./graphql/schema.graphql:/schema.graphql
         links:
             - "mongo:mongo"    
-    mongo:
+
+    # MongoDB for DB2
+    mongo2:
         ports:
-            - 27017:27017
+            - 27018:27017
         image: mongo
         logging:
-            driver: none
-
+            driver: none     
+    # GraphQL API for DB2
     mongoke2:
         ports:
             - 4001:80
@@ -30,18 +40,14 @@ services:
             - ./graphql/schemaCacheServer.graphql:/schema.graphql
         links:
             - "mongo2:mongo2"    
-    mongo2:
-        ports:
-            - 27018:27017
-        image: mongo
-        logging:
-            driver: none     
-
+    # ReactJS Application (DB1 and 2)
     react:
         build: ./react/
         ports:
             - 3000:3000
         stdin_open: true
+    
+    # Fake data generator
     populator:
         build: ./populator/
         volumes:
@@ -49,7 +55,9 @@ services:
         depends_on: 
             - mongo        
         links:
-            - "mongo:mongo"    
+            - "mongo:mongo"
+            
+    # Cache server to calculate ratings for suppliers
     cacheserver:
         ports:
             - 3002:3002

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import gql from "graphql-tag";
-
 const RatingsGuage = ({ rating }) => {
     return (
         <div className="ratings-gauge">
