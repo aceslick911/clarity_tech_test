@@ -19,7 +19,9 @@ services:
             - ./graphql/mongoke.yml:/conf.yml
             - ./graphql/schema.graphql:/schema.graphql
         links:
-            - "mongo:mongo"    
+            - mongo:mongo    
+        depends_on: 
+            - mongo        
 
     # MongoDB for DB2
     mongo2:
@@ -39,7 +41,9 @@ services:
             - ./graphql/mongokeCacheServer.yml:/conf.yml
             - ./graphql/schemaCacheServer.graphql:/schema.graphql
         links:
-            - "mongo2:mongo2"    
+            - mongo2:mongo2  
+        depends_on: 
+            - mongo2        
     # ReactJS Application (DB1 and 2)
     react:
         build: ./react/
@@ -49,25 +53,19 @@ services:
     
     # Fake data generator
     populator:
-        build: ./populator/
-        volumes:
-            - ./populator:/app          
-        depends_on: 
-            - mongo        
+        build: ./populator/      
         links:
-            - "mongo:mongo"
-            
+            - mongo:mongo
+
     # Cache server to calculate ratings for suppliers
     cacheserver:
         ports:
             - 3002:3002
-        build: ./db2server/
-        volumes:
-            - ./db2server:/app          
+        build: ./cacheserver/ 
         depends_on: 
             - mongo2  
             - mongoke     
             - mongoke2        
         links:
-            - "mongo2:mongo2"
-            - "mongoke:mongoke"                  
+            - mongo2:mongo2
+            - mongoke:mongoke                  

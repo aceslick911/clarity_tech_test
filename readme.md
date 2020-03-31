@@ -40,7 +40,8 @@ Angelo Perera
 ## Technology Used
 * MongoDB (Containerised)
 * GraphQL (Containerised, MongoKe)
-* ReactJS (Containerised, Apollo, GraphQL)
+* ReactJS (Containerised, Apollo, GraphQL, Fetch, ReactHooks)
+* NodeJS ( GraphQL, Mongo, Faker)
 
 
 ## Methodology Design Description
@@ -61,9 +62,26 @@ Debugging URLS:
 * Visit: http://localhost:4001 for GraphQL UI for MongoDB2 - Synced DB with ratings
 * Visit: http://localhost:3002 for DB Sync Back-End(NodeJS)
 
+Troubleshooting:
+Try running this if mongo fails to run:
+`docker volume prune`
+
+![design](DB1.png "Database 1")
+![design](DB2.png "Database 2")
+
+Items omitted from this project:
+* Unit testing (Due to time constraints - however the application has been kept modular and is highly testable)
+* GraphQL Mutations & Subscriptions - Due to using the read-only graphql container "MongoKE", the application does not support mutations and subscriptions for graphql clients. If this was implemented, editing records and subscribing to changes would change the operation of the cache server
+* Redis/Memcache - This was not implemented due to time contraints, a dedicated cache server would improve performance and scaling
+* Cloud deployment with kubernetes - This application could be adopted to run in a kubernetes cluster on a cloud provider. This was omitted due to time constraints.
+
+Scaling & performance considerations:
+* Algorithms in this application were not highly optimised to minimise memory and cpu usage. This application can be re-written to shard data which will allow more effective horizontal scaling.
+* NodeJS was used for the ratings calculations. This could be optimised by using a higher performance language such as GOLang or the calculations could be performed on the client side.
 
 ## GraphQL
 Schema:
+DB1 -  (DB1 - http://localhost:4000)
 ```yml
  type Supplier {
     _id: ObjectId
@@ -91,8 +109,16 @@ type WorkOrder {
     report_provided: Boolean
 }
 ```
+DB2 -  (DB1 - http://localhost:4001)
+```yml
+  type Supplier {
+    _id: ObjectId
+    name: String
+    rating: Float
+}
+```
 
-Relationships:
+Relationships (DB1):
 ```yml
 relations:
     -   field: workorders
@@ -111,7 +137,7 @@ relations:
 ```
 
 Queries:
-Get Suppliers
+Get Suppliers (DB1 - http://localhost:4000)
 ```yml
 {
   Suppliers(first: 1000) {

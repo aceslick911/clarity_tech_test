@@ -2,7 +2,6 @@ const MongoClient = require('mongodb').MongoClient;
 
 const faker = require('faker');
 
-const assert = require('assert');
 
 // Connection URL
 const url = 'mongodb://mongo/db';
@@ -11,20 +10,32 @@ const url = 'mongodb://mongo/db';
 const dbName = 'db';
 
 // Create a new MongoClient
-const client = new MongoClient(url, { useUnifiedTopology: true });
+let client = null;
 
 // Use connect method to connect to the Server
-console.log("connecting...")
-client.connect(function (err) {
-    assert.equal(null, err);
-    console.log("Connected successfully to server");
+const connectClient = () => {
+    console.log("connecting...")
+    client = new MongoClient(url, { useUnifiedTopology: true });
+    client.connect((err) => {
+        if (err != null) {
+            console.log("Connection to Mongo failed. Retrying in 2 seconds..")
+            setTimeout(() => { connectClient() }, 2000);
+            return;
+        }
+        console.log("Connected successfully to server");
 
-    const db = client.db(dbName);
-    insertDocuments(db, () => {
-        client.close();
-    })
+        const db = client.db(dbName);
+        insertDocuments(db, () => {
+            client.close();
+        })
 
-});
+    });
+}
+
+console.log("Delaying startup.. (10s)")
+setTimeout(() => {
+    connectClient();
+}, 10000);
 
 const insertDocuments = (db, callback) => {
     insertServices(db, 20)
