@@ -40,9 +40,8 @@ services:
     react:
         build: ./react/
         ports:
-            - 3000:80
-        volumes:
-            - ./react:/app
+            - 3000:3000
+        stdin_open: true
     populator:
         build: ./populator/
         volumes:

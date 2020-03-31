@@ -8,9 +8,10 @@ WORKDIR /app
 ENV PATH node_modules/.bin:$PATH
 
 # install and cache app dependencies
-COPY package.json /app/package.json
-RUN npm install --silent
-# RUN npm install react-scripts@3.0.1 -g --silent
+# COPY package.json /app/package.json
+COPY . .
+RUN yarn install --silent
+RUN npm install react-scripts@3.4.1 -g --silent
 
 # start app
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
