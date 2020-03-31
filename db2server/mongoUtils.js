@@ -5,7 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 
 
 const initializeMongoConnection = () => new Promise((resolve, error) => {
-    const url = 'mongodb://localhost:27018/db';
+    const url = 'mongodb://mongo2/db';
     const dbName = 'db';
     const client = new MongoClient(url, { useUnifiedTopology: true });
 

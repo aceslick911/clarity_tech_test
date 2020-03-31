@@ -1,7 +1,7 @@
 const { request } = require('graphql-request')
 
 const fetchDB1Data = async () => {
-    const endpoint = 'http://localhost:4000/'
+    const endpoint = 'http://mongoke/'
 
     const query = /* GraphQL */`
     {

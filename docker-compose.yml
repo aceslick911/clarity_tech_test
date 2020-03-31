@@ -53,6 +53,19 @@ services:
             - mongo        
         links:
             - "mongo:mongo"    
+    cacheserver:
+        ports:
+            - 3002:3002
+        build: ./db2server/
+        volumes:
+            - ./db2server:/app          
+        depends_on: 
+            - mongo2  
+            - mongoke     
+            - mongoke2        
+        links:
+            - "mongo2:mongo2"
+            - "mongoke:mongoke"                  
 
     # populate-db:
     #     image: mongoke/populate-mongo

@@ -29,7 +29,7 @@ var app = express();
 let db_instance = null;
 let db_client = null
 let lastRequest = null;
-const cacheTimeSeconds = 2;//60 * 5;
+const cacheTimeSeconds = 2//60 * 5; //5 Minutes
 
 
 initializeMongoConnection().then((connection) => {
@@ -68,6 +68,6 @@ app.get('/', (req, res) => {
 })
 
 
-const server = app.listen(3001, () => {
+const server = app.listen(3002, () => {
     console.log('Listening on port %s', server.address().port)
 })
